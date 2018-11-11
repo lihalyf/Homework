@@ -30,8 +30,8 @@ def forecast():
     df_valid['my_forecast'] = forecast_result
        
     #Calculate MASE
-    diff_between_true_naive_forecast = np.absolute(df_valid['naive_forecast'] - df_valid['final_demand'])
-    diff_between_true_final_forecast = np.absolute(df_valid['my_forecast'] - df_valid['final_demand'])
+    diff_between_true_naive_forecast = np.absolute(df_valid[df_valid.difference != 0]['naive_forecast'] - df_valid[df_valid.difference != 0]['final_demand'])
+    diff_between_true_final_forecast = np.absolute(df_valid[df_valid.difference != 0]['my_forecast'] - df_valid[df_valid.difference != 0]['final_demand'])
     MASE = np.sum(diff_between_true_final_forecast) / np.sum(diff_between_true_naive_forecast)
     
     return MASE
@@ -92,7 +92,9 @@ def multiplicative_model(X_train, y_train, target_date, final_ticket):
 def combined_model(lyst, additive, multiplicative, df):
     final_result = []
     for i in range(len(lyst)):
-        if lyst[i] < 8: #Use additive model result when the difference between current date and departure date is less than 8 days
+        if lyst[i] == 0:
+            final_result.append(np.nan)
+        elif lyst[i] < 8: #Use additive model result when the difference between current date and departure date is less than 8 days
             final_result.append(additive[i] + df.cum_bookings[i])
         else: #Use multiplicative model result when the difference between current date and departure date is at least 8 days
             final_result.append(df.cum_bookings[i] / multiplicative[i])
