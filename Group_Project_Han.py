@@ -95,9 +95,9 @@ def combined_model(lyst, additive, multiplicative, df):
         if lyst[i] == 0:
             final_result.append(np.nan)
         elif lyst[i] < 8: #Use additive model result when the difference between current date and departure date is less than 8 days
-            final_result.append(additive[i] + df.cum_bookings[i])
+            final_result.append((additive[i] + df.cum_bookings[i])*0.8 + df.cum_bookings[i] / multiplicative[i] * 0.2)
         else: #Use multiplicative model result when the difference between current date and departure date is at least 8 days
-            final_result.append(df.cum_bookings[i] / multiplicative[i])
+            final_result.append((additive[i] + df.cum_bookings[i])*0.2 + df.cum_bookings[i] / multiplicative[i] * 0.8)
     return final_result
 
 print(forecast())
