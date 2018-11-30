@@ -1,5 +1,5 @@
 Group Project
-Han Li
+Huy Le & Han Li
 
 The goal of this project is to predict the number of sold tickets for each flight. With historical data, we can get how many tickets have been sold before n days of departure. Here n is from 0 to 60 in historical data, where n is equal to departure date minus current date in Dataframe. When n is equal to 0, the tickets represents for the final sold quantities for each flight. Then we can get the mean of how many tickets have been sold before departure for each n. Finally, there is a relation between n and the mean of the quantity of sold tickets on that day.
 
